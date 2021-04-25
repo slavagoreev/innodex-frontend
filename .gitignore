@@ -9,8 +9,7 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+/dist
 
 # production
 /build
@@ -48,3 +47,5 @@ yarn-error.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+.eslintcache
