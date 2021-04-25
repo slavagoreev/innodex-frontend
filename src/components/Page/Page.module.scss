@@ -1,0 +1,12 @@
+@import 'styles/variables';
+
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 100px 0;
+
+  &__content {
+    flex: 1 0 auto;
+  }
+}
