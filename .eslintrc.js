@@ -66,8 +66,9 @@ module.exports = {
     /*** IDE fixes ***/
     // Ignore unused variables that starts with `_`, for example `.map((_el, idx) => idx))`
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': [2, { args: 'all', argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': 'off',
     'no-undef': 'off',
+    'no-console': 'off',
 
     '@typescript-eslint/ban-types': 'off',
 

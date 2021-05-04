@@ -3,7 +3,7 @@ import { Route, Router, Switch } from 'react-router-dom';
 
 import { LoadingScreen } from './components/Misc/LoadingScreen';
 import { Page } from './components/Page/Page';
-import { useEthereumInit } from './ethereum/impl';
+import { useEthereumInit } from './ethereum/innodex/impl';
 import { history, routes } from './routes';
 
 function App() {

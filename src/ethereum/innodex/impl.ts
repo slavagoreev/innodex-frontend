@@ -1,13 +1,13 @@
-import { Instrument } from '../types/Instrument';
+import { Instrument } from '../../types/Instrument';
+import { BaseEthereum, configureEthereum } from '../lib';
 
 import abi from './abi.json';
-import { BaseEthereum, configureEthereum } from './lib';
 
 import { AbiItem } from 'web3-utils';
 
-const address = '0x29723Ac634583D8e7332eF0554A5b4857674701e';
+const address = '0x16d47f42D3844c014dBe5681be2074519AA6d876';
 
-class Ethereum extends BaseEthereum {
+class InnoDEX extends BaseEthereum {
   constructor(account: string) {
     super(account, address, abi as AbiItem[]);
   }
@@ -27,6 +27,6 @@ class Ethereum extends BaseEthereum {
   }
 }
 
-const { useEthereumInit, useEthereum } = configureEthereum(Ethereum);
+const { useEthereumInit, useEthereum: useInnoDEX } = configureEthereum(InnoDEX);
 
-export { useEthereumInit, useEthereum };
+export { useEthereumInit, useInnoDEX };
