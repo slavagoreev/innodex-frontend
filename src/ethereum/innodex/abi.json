@@ -59,18 +59,8 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "asset1",
+        "name": "instrument",
         "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "asset2",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "step",
-        "type": "uint256"
       }
     ],
     "name": "addInstrument",

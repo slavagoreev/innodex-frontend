@@ -23,7 +23,7 @@ export function createContract(
 ) {
   const contract = new window.web3.eth.Contract(abi as AbiItem[]);
 
-  contract.deploy({
+  return contract.deploy({
     data: bytecode.object,
     arguments: [asset1, asset2, priceStep],
   });

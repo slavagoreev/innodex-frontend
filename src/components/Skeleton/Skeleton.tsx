@@ -13,6 +13,7 @@ export type SkeletonProps = {
   height?: string | number;
   circle?: boolean;
   randomizeWidth?: boolean;
+  style?: CSSProperties;
 };
 
 export const Skeleton: FunctionComponent<SkeletonProps & JSX.IntrinsicElements['div']> = ({
