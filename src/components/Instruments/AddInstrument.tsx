@@ -13,7 +13,7 @@ export type AddInstrumentProps = {
 
 export const AddInstrument = ({ innoDEX, setInstruments, setInstances }: AddInstrumentProps) => {
   const [show, setShow] = useState(false);
-  const [address, setAddress] = useState('0x0948aD72d4B7A2FCC4a73Ad0c8DbBBcb7044E435');
+  const [address, setAddress] = useState('');
   const [priceStep, setPriceStep] = useState('1');
   const [isLoading, setLoading] = useState(false);
 
@@ -55,7 +55,7 @@ export const AddInstrument = ({ innoDEX, setInstruments, setInstances }: AddInst
 
   return (
     <>
-      <Button size="sm" variant="outline-primary" onClick={handleShow}>
+      <Button size="sm" variant="outline-secondary" onClick={handleShow}>
         Create instrument
       </Button>
 
@@ -86,7 +86,7 @@ export const AddInstrument = ({ innoDEX, setInstruments, setInstances }: AddInst
               <Form.Label>Price step</Form.Label>
               <Form.Control
                 type="number"
-                step="1"
+                step="1000000"
                 value={priceStep}
                 onChange={(e) => setPriceStep(e.target.value)}
               />

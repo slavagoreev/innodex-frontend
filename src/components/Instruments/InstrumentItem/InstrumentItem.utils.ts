@@ -12,19 +12,62 @@ const generateNextStockPrice = (oldPrice: number, volatility = 0.02) => {
   return oldPrice + changeAmount;
 };
 
-export const generateStockPrice = (length = 100, volatility = 0.02) => {
-  let currentPrice = Math.random() * 10000;
+export const generateStockPrice = (
+  name: string,
+  initialPrice: number,
+  length = 100,
+  volatility = 0.02
+) => {
+  const savedResult = localStorage.getItem(`chart_${name}`);
+
+  if (name && savedResult) {
+    return JSON.parse(savedResult);
+  }
+
+  let currentPrice = initialPrice;
   const range = new Array(length);
   const prices = [currentPrice];
+  const today = new Date().getTime();
 
   for (let i = 0; i < length - 1; i++) {
     currentPrice = generateNextStockPrice(currentPrice, volatility);
     prices.push(currentPrice);
-    range[i] = i;
+    range[i] = today - i * 60 * 1000;
   }
 
-  return [range, prices];
+  const result = [range, prices.reverse()];
+
+  localStorage.setItem(`chart_${name}`, JSON.stringify([range, prices.reverse()]));
+
+  return result;
 };
+
+export const getStyledChartOptions = (color = '#cf3a51'): ApexOptions => ({
+  stroke: {
+    width: 2,
+    curve: 'smooth',
+    colors: [color],
+  },
+  fill: {
+    type: 'gradient',
+    colors: [color],
+    gradient: {
+      shadeIntensity: 1,
+      inverseColors: false,
+      opacityFrom: 0.5,
+      opacityTo: 0,
+      type: 'vertical',
+      gradientToColors: [color],
+      stops: [0, 90, 100],
+    },
+  },
+  markers: {
+    size: 0,
+  },
+  dataLabels: {
+    enabled: false,
+  },
+});
 
 export const defaultChartOptions: ApexOptions = {
   legend: {
@@ -35,24 +78,6 @@ export const defaultChartOptions: ApexOptions = {
   },
   tooltip: {
     enabled: false,
-  },
-  stroke: {
-    width: 2,
-    curve: 'smooth',
-    colors: ['#cf3a51'],
-  },
-  fill: {
-    type: 'gradient',
-    colors: ['#cf3a51'],
-    gradient: {
-      shadeIntensity: 1,
-      inverseColors: false,
-      opacityFrom: 0.5,
-      opacityTo: 0,
-      type: 'vertical',
-      gradientToColors: ['#cf3a51'],
-      stops: [0, 90, 100],
-    },
   },
   chart: {
     toolbar: {
@@ -70,8 +95,5 @@ export const defaultChartOptions: ApexOptions = {
     selection: {
       enabled: false,
     },
-  },
-  markers: {
-    size: 0,
   },
 };

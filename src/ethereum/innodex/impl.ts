@@ -25,10 +25,6 @@ export class InnoDEX extends BaseEthereum {
       .send({ from: this.account });
   }
 
-  // async buyImage (title: string, url: string): Promise<Image> {
-  //   return await this.contract.methods.buyImage(title, url).send({ from: this.account, value: 10**18 })
-  // }
-
   async getAllInstruments(): Promise<string[]> {
     return await this.contract.methods.getAllInstruments().call({ from: this.account });
   }

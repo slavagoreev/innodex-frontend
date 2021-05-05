@@ -7,12 +7,24 @@ import bytecode from './instrument_bytecode.json';
 import { AbiItem } from 'web3-utils';
 
 export class InstrumentImpl extends BaseEthereum {
-  constructor(account: string, address?: string) {
+  constructor(account: string, public address: string) {
     super(account, address || '0xEf784c5F412891f63A0Fd0d917bA4c5F41dB7887', abi as AbiItem[]);
   }
 
+  async getSpotPrice(): Promise<number> {
+    // false = bid spot price
+    return await this.contract.methods.getSpotPrice(false).call({ from: this.account });
+  }
+
   async getMetadata(): Promise<Instrument> {
-    return await this.contract.methods.getMetadata().call({ from: this.account });
+    const { ...data }: Instrument = await this.contract.methods
+      .getMetadata()
+      .call({ from: this.account });
+
+    data.address = this.address;
+    data.spotPrice = await this.getSpotPrice();
+
+    return data;
   }
 }
 

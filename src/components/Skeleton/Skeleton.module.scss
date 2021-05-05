@@ -1,7 +1,7 @@
 @import 'styles/variables';
 
-$skeleton-base-color: $gray-200;
-$skeleton-highlight-color: $gray-100;
+$skeleton-base-color: mix($gray-300, $primary-100);
+$skeleton-highlight-color: mix($gray-100, $primary-100);
 
 .skeleton {
   background-color: $skeleton-base-color;
