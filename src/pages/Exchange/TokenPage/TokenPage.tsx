@@ -94,8 +94,8 @@ export const TokenPage = () => {
   return (
     <div className="d-flex flex-column w-100">
       <div className={cx(styles.topButtons, 'mb-4')}>
-        <TextSkeleton height={33} width={140} count={2}>
-          {firstTokenRef.current && secondTokenRef.current && (
+        <TextSkeleton height={33} width={140} className="mr-3" count={2}>
+          {!isLoading && firstTokenRef.current && secondTokenRef.current && (
             <>
               <ButtonGroup size="sm" className="mr-3">
                 <Button disabled={isBuyLoading} variant="secondary" onClick={handleBuyClick}>
@@ -136,12 +136,17 @@ export const TokenPage = () => {
           >
             <img src={chevronLeft} width={24} height={24} />
           </Button>
-          <TextSkeleton width={110} height={18}>
-            {!isLoading && instrument && <h5 className="mb-0">Trading pair «{instrument.name}»</h5>}
+          <TextSkeleton width={300} height={18}>
+            {!isLoading && instrument && (
+              <h5 className="mb-0">
+                Trading pair «{firstTokenRef.current?.tokenName} /{' '}
+                {secondTokenRef.current?.tokenName}»
+              </h5>
+            )}
           </TextSkeleton>
           <div className="ml-auto">
-            <TextSkeleton width={100} height={16}>
-              {!isLoading && instrument && <strong>{instrument.spotPrice} WETH</strong>}
+            <TextSkeleton width={180} height={16}>
+              {!isLoading && instrument && <strong>Spot price: {instrument.spotPrice} WETH</strong>}
             </TextSkeleton>
           </div>
         </div>
@@ -168,11 +173,7 @@ export const TokenPage = () => {
                     show: false,
                   },
                   animations: {
-                    easing: 'easein',
-                    animateGradually: {
-                      enabled: true,
-                      delay: 10,
-                    },
+                    enabled: false,
                   },
                   selection: {
                     enabled: true,

@@ -1,4 +1,5 @@
 import { Instrument } from '../../types/Instrument';
+import { OrderBookQty } from '../../types/OrderBookQty';
 import { BaseEthereum } from '../lib';
 
 import abi from './abi.json';
@@ -25,6 +26,10 @@ export class InstrumentImpl extends BaseEthereum {
     data.spotPrice = await this.getSpotPrice();
 
     return data;
+  }
+
+  async getOrderBookRecords(): Promise<OrderBookQty[]> {
+    return await this.contract.methods.getOrderBookRecords().call({ from: this.account });
   }
 
   async getFirstAssetAddress(): Promise<string> {

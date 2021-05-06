@@ -8,7 +8,7 @@ import { AbiItem } from 'web3-utils';
 export class Token extends BaseEthereum {
   tokenName = '';
   symbol = '';
-  accountBalance = -1;
+  accountBalance = '';
 
   constructor(account: string, public address: string) {
     super(account, address, abi as AbiItem[]);
@@ -18,10 +18,12 @@ export class Token extends BaseEthereum {
     this.getSymbol();
   }
 
-  async getAccountBalance(): Promise<number> {
-    this.accountBalance = await this.contract.methods
+  async getAccountBalance(): Promise<string> {
+    const balanceInWEI = await this.contract.methods
       .balanceOf(this.account)
       .call({ from: this.account });
+
+    this.accountBalance = Web3.utils.fromWei(balanceInWEI);
 
     return this.accountBalance;
   }

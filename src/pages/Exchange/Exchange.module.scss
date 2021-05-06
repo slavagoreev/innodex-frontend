@@ -1,2 +1,23 @@
+@import 'styles/variables';
+
 .list {
+
+  button {
+    font-size: 17px;
+    font-weight: 600;
+    padding: 10px 20px;
+
+    &:first-of-type {
+      background: radial-gradient(circle at top left, rgba(0, 93, 253, 0.1) 0, #e6ecff 90%), radial-gradient(circle at top right, rgba(7, 106, 255, 0.5) 0, #f1eff8 60%);
+      color: #4f52bb !important;
+      border: 1px solid rgba($primary-500, 0.1);
+    }
+
+    &:last-of-type {
+      background: radial-gradient(circle at top left, rgba(0, 93, 253, 0.1) 0, #e6ecff 90%), radial-gradient(circle at bottom right, rgba(255, 7, 251, 0.5) 0, #f1eff8 60%);
+      color: #6b546f !important;
+      text-shadow: 0 0 3px rgba($white, 0.5);
+      border: 1px solid rgba($primary-800, 0.1);
+    }
+  }
 }

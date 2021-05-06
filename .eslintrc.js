@@ -71,6 +71,7 @@ module.exports = {
     'no-console': 'off',
 
     '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
 
     // Fixes the bug of enums to be suspected shadowing itself
     // https://stackoverflow.com/a/65768375/4239577
