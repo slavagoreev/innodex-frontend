@@ -41,16 +41,11 @@ export const Exchange = () => {
 
   return (
     <main>
-      <div className="d-flex align-items-center mb-4">
-        <h3 className="mr-3 mb-0">InnoDEX</h3>
-        <AddInstrument
-          innoDEX={innoDEX}
-          setInstruments={setInstruments}
-          setInstances={setInstances}
-        />
-      </div>
       <Row>
         <Col md={selectedItem ? 3 : 5} lg={4}>
+          <div className="d-flex align-items-center mb-4">
+            <h3 className="mr-3 mb-0">InnoDEX</h3>
+          </div>
           <div className={styles.list}>
             {instruments.length > 0 ? (
               instruments.map((instrument) => (
@@ -63,6 +58,11 @@ export const Exchange = () => {
             ) : (
               <TextSkeleton width="100%" height={80} style={{ marginBottom: 10 }} count={3} />
             )}
+            <AddInstrument
+              innoDEX={innoDEX}
+              setInstruments={setInstruments}
+              setInstances={setInstances}
+            />
           </div>
         </Col>
         <Col md={selectedItem ? 9 : 7} lg={8} className="d-flex align-items-center">

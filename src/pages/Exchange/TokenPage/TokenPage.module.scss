@@ -1,5 +1,22 @@
+@import 'styles/variables';
+
 .content {
   padding: 25px;
   border-radius: 10px;
   background: white;
+}
+
+.topButtons {
+  height: 35px;
+  display: flex;
+  align-items: center;
+
+  button {
+    height: 35px;
+  }
+}
+
+.tokenName {
+  font-weight: bold;
+  font-size: 14px;
 }

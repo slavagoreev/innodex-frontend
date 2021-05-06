@@ -55,7 +55,7 @@ export const AddInstrument = ({ innoDEX, setInstruments, setInstances }: AddInst
 
   return (
     <>
-      <Button size="sm" variant="outline-secondary" onClick={handleShow}>
+      <Button variant="outline-primary" className="mt-3 mb-4 w-100" onClick={handleShow}>
         Create instrument
       </Button>
 

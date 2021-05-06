@@ -7,6 +7,12 @@
   height: 80px;
 }
 
+.itemActive {
+  background:
+    radial-gradient(circle at top left, rgba(0, 91, 248, 0.1) 0, #ffffff 50%),
+    radial-gradient(circle at bottom right, rgba(248, 0, 165, 0.2) 0, #ffffff 100%);
+}
+
 .data {
   padding: 0 20px;
   text-decoration: none !important;

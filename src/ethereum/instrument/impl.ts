@@ -26,6 +26,14 @@ export class InstrumentImpl extends BaseEthereum {
 
     return data;
   }
+
+  async getFirstAssetAddress(): Promise<string> {
+    return await this.contract.methods.getFirstAssetAddress().call({ from: this.account });
+  }
+
+  async getSecondAssetAddress(): Promise<string> {
+    return await this.contract.methods.getSecondAssetAddress().call({ from: this.account });
+  }
 }
 
 export function createContract(

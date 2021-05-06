@@ -28,6 +28,7 @@ export const InstrumentItem = ({ instrument, onSelect }: InstrumentItemProps) =>
   return (
     <NavLink
       to={`/token/${instrument.address}`}
+      activeClassName={styles.itemActive}
       className={cx(styles.item, 'd-flex justify-content-between align-items-center')}
       onClick={() => onSelect(instrument)}
     >

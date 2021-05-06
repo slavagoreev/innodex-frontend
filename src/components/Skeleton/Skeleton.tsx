@@ -4,7 +4,7 @@ import styles from './Skeleton.module.scss';
 
 import cx from 'classnames';
 
-export type SkeletonProps = {
+export type SkeletonProps = JSX.IntrinsicElements['div'] & {
   count?: number;
   duration?: number;
   minWidth?: number;
@@ -16,7 +16,7 @@ export type SkeletonProps = {
   style?: CSSProperties;
 };
 
-export const Skeleton: FunctionComponent<SkeletonProps & JSX.IntrinsicElements['div']> = ({
+export const Skeleton: FunctionComponent<SkeletonProps> = ({
   count = 1,
   duration = 1.2,
   minWidth = 50,
