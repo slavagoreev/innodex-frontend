@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Route } from 'react-router-dom';
 
@@ -6,40 +6,16 @@ import { AddInstrument } from '../../components/Instruments/AddInstrument';
 import { InstrumentItem } from '../../components/Instruments/InstrumentItem/InstrumentItem';
 import { WrapEther } from '../../components/Instruments/WrapEther';
 import { TextSkeleton } from '../../components/Skeleton/TextSkeleton';
-import { useInnoDEX } from '../../ethereum/innodex/impl';
-import { InstrumentImpl } from '../../ethereum/instrument/impl';
-import { Instrument } from '../../types/Instrument';
 
 import { EmptyExchange } from './EmptyExchange/EmptyExchange';
 import { OrderBookPage } from './OrderBookPage/OrderBookPage';
 import { TokenPage } from './TokenPage/TokenPage';
+import { ExchangeContext } from './ExchangeContext';
 
 import styles from './Exchange.module.scss';
 
 export const Exchange = () => {
-  const innoDEX = useInnoDEX();
-  const [instruments, setInstruments] = useState<Instrument[]>([]);
-  const [instrumentInstances, setInstances] = useState<InstrumentImpl[]>([]);
-
-  const [selectedItem, setSelectedItem] = useState<Instrument | boolean | null>(
-    location.pathname.includes('token')
-  );
-
-  useEffect(() => {
-    innoDEX.getAllInstruments().then((list) => {
-      localStorage.setItem('instrumentAddressesCount', String(list.length));
-
-      const instanceList = list.map((address) => new InstrumentImpl(innoDEX.account, address));
-
-      setInstances(instanceList);
-
-      Promise.all(instanceList.map((instance) => instance.getMetadata())).then(setInstruments);
-    });
-  }, []);
-
-  useEffect(() => {
-    setSelectedItem(location.pathname.includes('token'));
-  }, [location.pathname]);
+  const { instruments, selectedItem, setSelectedItem } = useContext(ExchangeContext);
 
   return (
     <main>
@@ -62,12 +38,8 @@ export const Exchange = () => {
             ) : (
               <TextSkeleton width="100%" height={80} style={{ marginBottom: 10 }} count={3} />
             )}
-            <AddInstrument
-              innoDEX={innoDEX}
-              setInstruments={setInstruments}
-              setInstances={setInstances}
-            />
-            <WrapEther innoDEX={innoDEX} />
+            <AddInstrument />
+            <WrapEther />
           </div>
         </Col>
         <Col md={selectedItem ? 9 : 7} lg={8} className="d-flex align-items-center">

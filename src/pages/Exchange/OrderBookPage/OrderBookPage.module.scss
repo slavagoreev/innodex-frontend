@@ -2,5 +2,39 @@
   padding: 25px;
   border-radius: 10px;
   background: white;
-  margin-top: 117px;
+}
+
+.orderBook {
+  display: flex;
+}
+
+.order {
+  width: 100%;
+  height: 24px;
+  margin-bottom: 5px;
+  line-height: 24px;
+  display: flex;
+  cursor: pointer;
+}
+
+.orderCount {
+  font-size: 13px;
+  font-weight: bold;
+  background: #ffdede;
+  border-radius: 3px;
+  padding: 0 20px;
+}
+
+.orderPrice {
+  font-size: 13px;
+  font-weight: bold;
+  margin-left: auto;
+  padding-left: 20px;
+}
+
+.orderBid {
+
+  .orderCount {
+    background: #d8ffd8;
+  }
 }

@@ -6,7 +6,7 @@ import abi from './abi.json';
 
 import { AbiItem } from 'web3-utils';
 
-const address = '0x16d47f42D3844c014dBe5681be2074519AA6d876';
+const address = '0xa10Df981b12479dD27CF9c04aA5B342e1E30a5c3';
 
 export class InnoDEX extends BaseEthereum {
   constructor(account: string) {

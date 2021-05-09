@@ -2,71 +2,6 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "orderId",
-        "type": "bytes32"
-      }
-    ],
-    "name": "cancelOrder",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bool",
-        "name": "toBuy",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "qty",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "flags",
-        "type": "uint256"
-      }
-    ],
-    "name": "limitOrder",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bool",
-        "name": "toBuy",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint256",
-        "name": "qty",
-        "type": "uint256"
-      }
-    ],
-    "name": "marketOrder",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "address",
         "name": "asset1Address",
         "type": "address"
@@ -193,6 +128,19 @@
     "type": "event"
   },
   {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "orderId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "cancelOrder",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "getFirstAssetAddress",
     "outputs": [
@@ -232,7 +180,7 @@
             "type": "string"
           }
         ],
-        "internalType": "struct IInstrument.Metadata",
+        "internalType": "struct IInstrumentMetadata.Metadata",
         "name": "",
         "type": "tuple"
       }
@@ -314,9 +262,14 @@
             "internalType": "uint256",
             "name": "qty",
             "type": "uint256"
+          },
+          {
+            "internalType": "enum OrderType",
+            "name": "orderType",
+            "type": "uint8"
           }
         ],
-        "internalType": "struct OrderBookQty[]",
+        "internalType": "struct OrderBookRecord[]",
         "name": "",
         "type": "tuple[]"
       }
@@ -359,9 +312,9 @@
   {
     "inputs": [
       {
-        "internalType": "bool",
-        "name": "asks",
-        "type": "bool"
+        "internalType": "enum OrderType",
+        "name": "orderType",
+        "type": "uint8"
       }
     ],
     "name": "getSpotPrice",
@@ -386,6 +339,64 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "toBuy",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "qty",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "flags",
+        "type": "uint256"
+      }
+    ],
+    "name": "limitOrder",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "orderId",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "toBuy",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "qty",
+        "type": "uint256"
+      }
+    ],
+    "name": "marketOrder",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

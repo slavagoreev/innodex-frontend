@@ -9,12 +9,12 @@ import { AbiItem } from 'web3-utils';
 
 export class InstrumentImpl extends BaseEthereum {
   constructor(account: string, public address: string) {
-    super(account, address || '0xEf784c5F412891f63A0Fd0d917bA4c5F41dB7887', abi as AbiItem[]);
+    super(account, address || '0xB9a2B41203F8A03eb41F2e386D0f9bF619ABacFE', abi as AbiItem[]);
   }
 
   async getSpotPrice(): Promise<number> {
     // false = bid spot price
-    return await this.contract.methods.getSpotPrice(false).call({ from: this.account });
+    return await this.contract.methods.getSpotPrice(1).call({ from: this.account });
   }
 
   async getMetadata(): Promise<Instrument> {
@@ -23,7 +23,7 @@ export class InstrumentImpl extends BaseEthereum {
       .call({ from: this.account });
 
     data.address = this.address;
-    data.spotPrice = await this.getSpotPrice();
+    data.spotPrice = (await this.getSpotPrice()) / 10 ** 18;
 
     return data;
   }

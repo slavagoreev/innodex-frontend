@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import Chart from 'react-apexcharts';
 import { Button, ButtonGroup, InputGroup } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
@@ -9,124 +9,26 @@ import {
   getStyledChartOptions,
 } from '../../../components/Instruments/InstrumentItem/InstrumentItem.utils';
 import { TextSkeleton } from '../../../components/Skeleton/TextSkeleton';
-import { useInnoDEX } from '../../../ethereum/innodex/impl';
-import { InstrumentImpl } from '../../../ethereum/instrument/impl';
-import { Token } from '../../../ethereum/token/impl';
-import { Instrument } from '../../../types/Instrument';
+import { ExchangeContext } from '../ExchangeContext';
+
+import { TopControls } from './TopControls';
 
 import styles from './TokenPage.module.scss';
 
 import cx from 'classnames';
 
 export const TokenPage = () => {
-  const innoDEX = useInnoDEX();
-  const params = useParams<{ id: string }>();
+  const { instrument, isLoading, firstTokenRef, secondTokenRef } = useContext(ExchangeContext);
+
   const history = useHistory();
-  const [instrument, setInstrument] = useState<Instrument | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(true);
   const [range, prices] = useMemo(
-    () => generateStockPrice(instrument?.name || '', Number(instrument?.spotPrice) || 100),
+    () => generateStockPrice(instrument?.name || '', Number(instrument?.spotPrice)),
     [instrument]
   );
 
-  const instrumentInstanceRef = useRef<InstrumentImpl | null>(null);
-  const firstTokenRef = useRef<Token | null>(null);
-  const secondTokenRef = useRef<Token | null>(null);
-
-  const [isBuyLoading, setBuyLoading] = useState(false);
-  const [buyAllowed, setBuyAllowance] = useState(false);
-
-  const [isSellLoading, setSellLoading] = useState(false);
-  const [sellAllowed, setSellAllowance] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-
-      instrumentInstanceRef.current = new InstrumentImpl(innoDEX.account, params.id);
-
-      try {
-        const metadata = await instrumentInstanceRef.current?.getMetadata();
-
-        setInstrument(metadata);
-
-        firstTokenRef.current = new Token(innoDEX.account, metadata.firstAssetAddress);
-        secondTokenRef.current = new Token(innoDEX.account, metadata.secondAssetAddress);
-
-        setBuyAllowance(Number(await firstTokenRef.current?.checkAllowance(metadata.address)) > 0);
-        setSellAllowance(
-          Number(await secondTokenRef.current?.checkAllowance(metadata.address)) > 0
-        );
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [params.id]);
-
-  const handleBuyClick = async () => {
-    if (buyAllowed) {
-      history.push(`/order-book/${params.id}`);
-    } else if (instrument) {
-      setBuyLoading(true);
-      await firstTokenRef.current?.approveAccess(instrument.address);
-      await firstTokenRef.current?.getAccountBalance();
-      setBuyLoading(false);
-      setBuyAllowance(true);
-    }
-  };
-
-  const handleSellClick = async () => {
-    if (sellAllowed) {
-      history.push(`/order-book/${params.id}`);
-    } else if (instrument) {
-      setSellLoading(true);
-      await secondTokenRef.current?.approveAccess(instrument.address);
-      await secondTokenRef.current?.getAccountBalance();
-      setSellLoading(false);
-      setSellAllowance(true);
-    }
-  };
-
   return (
     <div className="d-flex flex-column w-100">
-      <div className={cx(styles.topButtons, 'mb-4')}>
-        <TextSkeleton height={33} width={140} className="mr-3" count={2}>
-          {!isLoading && firstTokenRef.current && secondTokenRef.current && (
-            <>
-              <ButtonGroup size="sm" className="mr-3">
-                <Button disabled={isBuyLoading} variant="secondary" onClick={handleBuyClick}>
-                  {buyAllowed ? 'Buy' : `Allow buying ${firstTokenRef.current?.tokenName}`}
-                </Button>
-                {buyAllowed && (
-                  <InputGroup.Prepend>
-                    <InputGroup.Text className={styles.tokenName}>
-                      Balance {firstTokenRef.current?.accountBalance}{' '}
-                      {firstTokenRef.current?.symbol}
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                )}
-              </ButtonGroup>
-              <ButtonGroup size="sm" className="mr-3">
-                <Button disabled={isSellLoading} variant="secondary" onClick={handleSellClick}>
-                  {sellAllowed ? 'Sell' : `Allow selling ${secondTokenRef.current?.tokenName}`}
-                </Button>
-                {sellAllowed && (
-                  <InputGroup.Prepend>
-                    <InputGroup.Text className={styles.tokenName}>
-                      Balance {secondTokenRef.current?.accountBalance}{' '}
-                      {secondTokenRef.current?.symbol}
-                    </InputGroup.Text>
-                  </InputGroup.Prepend>
-                )}
-              </ButtonGroup>
-            </>
-          )}
-        </TextSkeleton>
-      </div>
+      <TopControls />
       <div className={cx(styles.content, 'd-flex flex-column h-100 w-100')}>
         <div className="d-flex align-items-center mb-4">
           <Button
@@ -158,8 +60,9 @@ export const TokenPage = () => {
                   prices[0] < prices[prices.length - 1] ? '#cf3a51' : '#229717'
                 ),
                 yaxis: {
-                  decimalsInFloat: 1,
                   opposite: true,
+                  decimalsInFloat: 10,
+                  logarithmic: true,
                 },
                 xaxis: {
                   categories: range,

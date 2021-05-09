@@ -10,7 +10,7 @@ import { AbiItem } from 'web3-utils';
 export class WETHImpl extends BaseEthereum {
   constructor(
     public account: string,
-    public address = '0x0a180a76e4466bf68a7f86fb029bed3cccfaaac5'
+    public address = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
   ) {
     super(account, address, abi as AbiItem[]);
   }

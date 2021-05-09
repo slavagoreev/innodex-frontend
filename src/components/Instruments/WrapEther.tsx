@@ -1,16 +1,13 @@
 import React, { FormEventHandler, useEffect, useRef, useState } from 'react';
 import { Button, Form, Modal, Spinner } from 'react-bootstrap';
 
-import { InnoDEX } from '../../ethereum/innodex/impl';
+import { useInnoDEX } from '../../ethereum/innodex/impl';
 import { WETHImpl } from '../../ethereum/weth/impl';
 
 import Web3 from 'web3';
 
-export type AddInstrumentProps = {
-  innoDEX: InnoDEX;
-};
-
-export const WrapEther = ({ innoDEX }: AddInstrumentProps) => {
+export const WrapEther = () => {
+  const innoDEX = useInnoDEX();
   const [show, setShow] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const wethContract = useRef<WETHImpl | null>(null);

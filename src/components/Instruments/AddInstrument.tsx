@@ -1,17 +1,13 @@
-import React, { Dispatch, FormEventHandler, SetStateAction, useState } from 'react';
+import React, { FormEventHandler, useContext, useState } from 'react';
 import { Button, Form, Modal, Spinner } from 'react-bootstrap';
 
-import { InnoDEX } from '../../ethereum/innodex/impl';
+import { useInnoDEX } from '../../ethereum/innodex/impl';
 import { createContract, InstrumentImpl } from '../../ethereum/instrument/impl';
-import { Instrument } from '../../types/Instrument';
+import { ExchangeContext } from '../../pages/Exchange/ExchangeContext';
 
-export type AddInstrumentProps = {
-  innoDEX: InnoDEX;
-  setInstruments: Dispatch<SetStateAction<Instrument[]>>;
-  setInstances: Dispatch<SetStateAction<InstrumentImpl[]>>;
-};
-
-export const AddInstrument = ({ innoDEX, setInstruments, setInstances }: AddInstrumentProps) => {
+export const AddInstrument = () => {
+  const innoDEX = useInnoDEX();
+  const { setInstances, setInstruments } = useContext(ExchangeContext);
   const [show, setShow] = useState(false);
   const [address, setAddress] = useState('');
   const [priceStep, setPriceStep] = useState('1');
