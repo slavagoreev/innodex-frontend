@@ -61,6 +61,13 @@ export const CreateOrderModal = ({ order, setShow, show }: CreateOrderModalProps
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <p>
+            Your balance:{' '}
+            <strong>
+              {secondTokenRef.current?.accountBalance}
+              {secondTokenRef.current?.symbol}
+            </strong>
+          </p>
           <Form.Group>
             <Form.Label>Amount</Form.Label>
             <Form.Control
