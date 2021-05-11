@@ -3,6 +3,7 @@ import { Button, Form, Modal, Spinner } from 'react-bootstrap';
 
 import { useInnoDEX } from '../../ethereum/innodex/impl';
 import { WETHImpl } from '../../ethereum/weth/impl';
+import { weiToPrice } from '../../utils/priceUtils';
 
 import Web3 from 'web3';
 
@@ -13,7 +14,7 @@ export const WrapEther = () => {
   const wethContract = useRef<WETHImpl | null>(null);
   const [amount, setAmount] = useState<string>('');
   const [balanceETH, setBalanceETH] = useState<string>('');
-  const [balanceWETH, setBalanceWETH] = useState<number>(0);
+  const [balanceWETH, setBalanceWETH] = useState<string>('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -60,7 +61,7 @@ export const WrapEther = () => {
 
     wethContract.current = new WETHImpl(innoDEX.account);
 
-    wethContract.current?.balanceOf().then(setBalanceWETH);
+    wethContract.current?.balanceOf().then((wei) => setBalanceWETH(weiToPrice(wei)));
   }, []);
 
   return (

@@ -8,6 +8,7 @@ import { AbiItem } from 'web3-utils';
 export class Token extends BaseEthereum {
   tokenName = '';
   symbol = '';
+  decimals = 5;
   accountBalance = '';
 
   constructor(account: string, public address: string) {
@@ -19,11 +20,13 @@ export class Token extends BaseEthereum {
   }
 
   async getAccountBalance(): Promise<string> {
+    const decimals = await this.getDecimals();
+
     const balanceInWEI = await this.contract.methods
       .balanceOf(this.account)
       .call({ from: this.account });
 
-    this.accountBalance = Web3.utils.fromWei(balanceInWEI);
+    this.accountBalance = String(balanceInWEI / 10 ** decimals);
 
     return this.accountBalance;
   }
@@ -42,6 +45,12 @@ export class Token extends BaseEthereum {
     this.symbol = await this.contract.methods.symbol().call({ from: this.account });
 
     return this.symbol;
+  }
+
+  async getDecimals(): Promise<number> {
+    this.decimals = await this.contract.methods.decimals().call({ from: this.account });
+
+    return this.decimals;
   }
 
   async checkAllowance(instrumentAddress: string): Promise<number> {

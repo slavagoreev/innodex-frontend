@@ -15,7 +15,7 @@ import { ExchangeContext } from './ExchangeContext';
 import styles from './Exchange.module.scss';
 
 export const Exchange = () => {
-  const { instruments, selectedItem, setSelectedItem } = useContext(ExchangeContext);
+  const { instruments, selectedItem, setSelectedItem, firstTokenRef } = useContext(ExchangeContext);
 
   return (
     <main>
@@ -31,12 +31,13 @@ export const Exchange = () => {
               instruments.map((instrument) => (
                 <InstrumentItem
                   key={instrument.name}
+                  decimals={firstTokenRef.current?.decimals || 5}
                   instrument={instrument}
                   onSelect={setSelectedItem}
                 />
               ))
             ) : (
-              <TextSkeleton width="100%" height={80} style={{ marginBottom: 10 }} count={3} />
+              <TextSkeleton width="100%" height={80} style={{ marginBottom: 10 }} count={1} />
             )}
             <AddInstrument />
             <WrapEther />

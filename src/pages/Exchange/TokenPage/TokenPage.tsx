@@ -48,7 +48,12 @@ export const TokenPage = () => {
           </TextSkeleton>
           <div className="ml-auto">
             <TextSkeleton width={180} height={16}>
-              {!isLoading && instrument && <strong>Spot price: {instrument.spotPrice} WETH</strong>}
+              {!isLoading && instrument && (
+                <strong>
+                  Spot price: {instrument.spotPrice * 10 ** (firstTokenRef.current?.decimals || 5)}{' '}
+                  WETH
+                </strong>
+              )}
             </TextSkeleton>
           </div>
         </div>

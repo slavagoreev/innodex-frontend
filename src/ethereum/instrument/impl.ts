@@ -12,9 +12,9 @@ export class InstrumentImpl extends BaseEthereum {
     super(account, address || '0xB9a2B41203F8A03eb41F2e386D0f9bF619ABacFE', abi as AbiItem[]);
   }
 
-  async getSpotPrice(): Promise<number> {
+  async getSpotPrice(type = 1): Promise<number> {
     // false = bid spot price
-    return await this.contract.methods.getSpotPrice(1).call({ from: this.account });
+    return await this.contract.methods.getSpotPrice(type).call({ from: this.account });
   }
 
   async getMetadata(): Promise<Instrument> {
@@ -32,12 +32,18 @@ export class InstrumentImpl extends BaseEthereum {
     return await this.contract.methods.getOrderBookRecords().call({ from: this.account });
   }
 
-  async getFirstAssetAddress(): Promise<string> {
-    return await this.contract.methods.getFirstAssetAddress().call({ from: this.account });
+  async limitOrder(toBuy: boolean, price: number, qty: number, flags: number): Promise<string> {
+    return await this.contract.methods
+      .limitOrder(toBuy, price, qty, flags)
+      .send({ from: this.account });
   }
 
-  async getSecondAssetAddress(): Promise<string> {
-    return await this.contract.methods.getSecondAssetAddress().call({ from: this.account });
+  async marketOrder(toBuy: boolean, qty: number): Promise<string> {
+    return await this.contract.methods.marketOrder(toBuy, qty).send({ from: this.account });
+  }
+
+  async marketOrderTryout(toBuy: boolean, qty: number): Promise<string> {
+    return await this.contract.methods.marketOrder(toBuy, qty).call({ from: this.account });
   }
 }
 

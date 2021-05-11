@@ -3,6 +3,7 @@ import { Button, ButtonGroup, InputGroup } from 'react-bootstrap';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { TextSkeleton } from '../../../components/Skeleton/TextSkeleton';
+import { eToNumber, formatPrice, weiToPrice } from '../../../utils/priceUtils';
 import { ExchangeContext } from '../ExchangeContext';
 
 import styles from './TokenPage.module.scss';
@@ -26,6 +27,8 @@ export const TopControls = () => {
     setSellAllowance,
   } = useContext(ExchangeContext);
   const history = useHistory();
+  const isBuy = location.hash.includes('buy');
+  const isSell = location.hash.includes('sell');
 
   const handleBuyClick = async () => {
     if (buyAllowed) {
@@ -53,20 +56,20 @@ export const TopControls = () => {
 
   return (
     <div className={cx(styles.topButtons, 'mb-4')}>
-      <TextSkeleton height={33} width={180} className="mr-3" count={2}>
+      <TextSkeleton height={35} width={180} className="mr-3" count={2}>
         {!isLoading && firstTokenRef.current && secondTokenRef.current && (
           <>
             <ButtonGroup size="sm" className="mr-3">
               <Button
                 disabled={isBuyLoading || Number(secondTokenRef.current?.accountBalance) === 0}
-                variant="secondary"
+                variant={isBuy ? 'dark' : 'secondary'}
                 onClick={handleBuyClick}
               >
                 {buyAllowed ? 'Buy' : `Allow buying ${firstTokenRef.current?.tokenName}`}
               </Button>
               <Button
                 disabled={isSellLoading || Number(firstTokenRef.current?.accountBalance) === 0}
-                variant="secondary"
+                variant={isSell ? 'dark' : 'secondary'}
                 onClick={handleSellClick}
               >
                 {sellAllowed ? 'Sell' : `Allow selling ${secondTokenRef.current?.tokenName}`}
@@ -74,7 +77,8 @@ export const TopControls = () => {
               {buyAllowed && (
                 <InputGroup.Prepend>
                   <InputGroup.Text className={styles.tokenName}>
-                    Balance {firstTokenRef.current?.accountBalance} {firstTokenRef.current?.symbol}
+                    Balance {eToNumber(Number(firstTokenRef.current?.accountBalance))}{' '}
+                    {firstTokenRef.current?.symbol}
                   </InputGroup.Text>
                 </InputGroup.Prepend>
               )}
@@ -83,7 +87,7 @@ export const TopControls = () => {
               <ButtonGroup size="sm" className="mr-3">
                 <InputGroup.Prepend>
                   <InputGroup.Text className={styles.tokenName}>
-                    Balance {secondTokenRef.current?.accountBalance}{' '}
+                    Balance {Number(secondTokenRef.current?.accountBalance)}{' '}
                     {secondTokenRef.current?.symbol}
                   </InputGroup.Text>
                 </InputGroup.Prepend>

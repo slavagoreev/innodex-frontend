@@ -43,6 +43,8 @@ export type ExchangeContextValue = {
   setSellLoading: Dispatch<SetStateAction<boolean>>;
   sellAllowed: boolean;
   setSellAllowance: Dispatch<SetStateAction<boolean>>;
+
+  refreshData: Dispatch<SetStateAction<number>>;
 };
 
 const noop = () => {
@@ -70,6 +72,7 @@ const defaultExchangeContextValue: ExchangeContextValue = {
   setSellLoading: noop,
   sellAllowed: false,
   setSellAllowance: noop,
+  refreshData: noop,
 };
 
 export const ExchangeContext = createContext<ExchangeContextValue>(defaultExchangeContextValue);
@@ -81,6 +84,7 @@ export const ExchangeContextProvider: FunctionComponent = ({ children }) => {
   const [instruments, setInstruments] = useState<Instrument[]>([]);
   const [instrument, setInstrument] = useState<Instrument | null>(null);
   const [instrumentInstances, setInstances] = useState<InstrumentImpl[]>([]);
+  const [dataRefresher, refreshData] = useState<number>(0);
 
   const instrumentInstanceRef = useRef<InstrumentImpl | null>(null);
   const firstTokenRef = useRef<Token | null>(null);
@@ -138,7 +142,7 @@ export const ExchangeContextProvider: FunctionComponent = ({ children }) => {
     if (location.pathname.includes('0x')) {
       fetchData();
     }
-  }, [location]);
+  }, [location, dataRefresher]);
 
   useEffect(() => {
     setSelectedItem(location.pathname.includes('token'));
@@ -168,6 +172,7 @@ export const ExchangeContextProvider: FunctionComponent = ({ children }) => {
         setSellLoading,
         sellAllowed,
         setSellAllowance,
+        refreshData,
       }}
     >
       {children}
