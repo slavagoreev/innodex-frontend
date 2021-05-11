@@ -75,9 +75,10 @@ export const CreateOrderModal = ({ order, setShow, show }: CreateOrderModalProps
 
   useEffect(() => {
     async function fetchData() {
-      const spotPrice = await instrumentInstanceRef.current?.getSpotPrice(isBuy ? 1 : 0);
+      const spotPrice = await instrumentInstanceRef.current?.getSpotPrice(1);
 
       setMarketPrice(weiToPrice(Number(order?.price ? order?.price : spotPrice)));
+      setLimitPrice(weiToPrice(Number(order?.price ? order?.price : spotPrice)));
     }
 
     fetchData();
@@ -126,7 +127,7 @@ export const CreateOrderModal = ({ order, setShow, show }: CreateOrderModalProps
           {formatPrice(
             Number(activeTabId === 'market' ? marketPrice : limitPrice) * Number(amount)
           )}
-          {(isBuy ? secondTokenRef : firstTokenRef).current?.symbol}
+          {secondTokenRef.current?.symbol}
         </strong>
       </p>
     </div>
