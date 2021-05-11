@@ -61,14 +61,20 @@ export const TopControls = () => {
           <>
             <ButtonGroup size="sm" className="mr-3">
               <Button
-                disabled={isBuyLoading || Number(secondTokenRef.current?.accountBalance) === 0}
+                disabled={
+                  isBuyLoading ||
+                  (buyAllowed && Number(secondTokenRef.current?.accountBalance) === 0)
+                }
                 variant={isBuy ? 'dark' : 'secondary'}
                 onClick={handleBuyClick}
               >
                 {buyAllowed ? 'Buy' : `Allow buying ${firstTokenRef.current?.tokenName}`}
               </Button>
               <Button
-                disabled={isSellLoading || Number(firstTokenRef.current?.accountBalance) === 0}
+                disabled={
+                  isSellLoading ||
+                  (sellAllowed && Number(firstTokenRef.current?.accountBalance) === 0)
+                }
                 variant={isSell ? 'dark' : 'secondary'}
                 onClick={handleSellClick}
               >
