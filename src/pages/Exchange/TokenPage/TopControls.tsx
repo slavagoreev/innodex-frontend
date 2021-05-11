@@ -68,7 +68,7 @@ export const TopControls = () => {
                 variant={isBuy ? 'dark' : 'secondary'}
                 onClick={handleBuyClick}
               >
-                {buyAllowed ? 'Buy' : `Allow buying ${firstTokenRef.current?.tokenName}`}
+                {buyAllowed ? 'Buy' : `Grant access to ${firstTokenRef.current?.tokenName}`}
               </Button>
               <Button
                 disabled={
@@ -78,7 +78,7 @@ export const TopControls = () => {
                 variant={isSell ? 'dark' : 'secondary'}
                 onClick={handleSellClick}
               >
-                {sellAllowed ? 'Sell' : `Allow selling ${secondTokenRef.current?.tokenName}`}
+                {sellAllowed ? 'Sell' : `Grant access to ${secondTokenRef.current?.tokenName}`}
               </Button>
               {buyAllowed && (
                 <InputGroup.Prepend>
