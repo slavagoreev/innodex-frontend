@@ -9,6 +9,7 @@ import {
   getStyledChartOptions,
 } from '../../../components/Instruments/InstrumentItem/InstrumentItem.utils';
 import { TextSkeleton } from '../../../components/Skeleton/TextSkeleton';
+import { formatPrice, weiToPrice } from '../../../utils/priceUtils';
 import { ExchangeContext } from '../ExchangeContext';
 
 import { TopControls } from './TopControls';
@@ -22,7 +23,11 @@ export const TokenPage = () => {
 
   const history = useHistory();
   const [range, prices] = useMemo(
-    () => generateStockPrice(instrument?.name || '', Number(instrument?.spotPrice)),
+    () =>
+      generateStockPrice(
+        instrument?.name || '',
+        Number(instrument?.spotPrice) * 10 ** (firstTokenRef.current?.decimals || 5)
+      ),
     [instrument]
   );
 
@@ -93,7 +98,10 @@ export const TokenPage = () => {
                     format: 'hh:mm d MMM yyyy',
                   },
                   custom({ series, seriesIndex, dataPointIndex, w }) {
-                    return `<div class="px-2 py-1">${series[seriesIndex][dataPointIndex]}</div>`;
+                    return `<div class="px-2 py-1">${formatPrice(
+                      series[seriesIndex][dataPointIndex],
+                      firstTokenRef.current?.decimals || 5
+                    )}</div>`;
                   },
                 },
               }}
